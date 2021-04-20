@@ -31,3 +31,5 @@ jobs:
         gh --version
         gh -R 1xyz/sphinx release download ${RELEASE_TAG} -p *darwin*
         stat *darwin*
+        touch changelog.md
+        gh -R 1xyz/homebrew-tools release create ${RELEASE_TAG} *.zip -F changelog.md
