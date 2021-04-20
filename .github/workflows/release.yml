@@ -18,7 +18,14 @@ jobs:
         echo Skipping all the next steps.
     - uses: actions/checkout@v1
       if: github.event.release.prerelease != true
+    - name: Get tag name
+      id: get_tag_name
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: Setup gh
       if: github.event.release.prerelease != true
+      env:
+        RELEASE_TAG: ${{ steps.get_tag_name.outputs.VERSION }}
       run: |
         gh --version
+        gh -R 1xyz/sphinx release download ${RELEASE_TAG} -p *darwin*
+        stat *darwin*
