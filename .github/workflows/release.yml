@@ -25,6 +25,8 @@ jobs:
       if: github.event.release.prerelease != true
       env:
         RELEASE_TAG: ${{ steps.get_tag_name.outputs.VERSION }}
+        GITHUB_USER: ${{ secrets.GH_USER }}
+        GITHUB_TOKEN: ${{ secrets.GH_PAT }}
       run: |
         gh --version
         gh -R 1xyz/sphinx release download ${RELEASE_TAG} -p *darwin*
