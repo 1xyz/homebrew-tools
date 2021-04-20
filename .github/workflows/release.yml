@@ -1,0 +1,24 @@
+name: release
+
+on:
+  push:
+    # Sequence of patterns matched against refs/tags
+    # this should match the tag release of the CLI
+    tags:
+    - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  homebrew-release:
+    runs-on: macOS-latest
+    steps:
+    - name: Checks if pre-release
+      if: github.event.release.prerelease == true
+      run: |
+        echo This is running against a pre-release.
+        echo Skipping all the next steps.
+    - uses: actions/checkout@v1
+      if: github.event.release.prerelease != true
+    - name: Setup gh
+      if: github.event.release.prerelease != true
+      run: |
+        eval "$(gh --version)"
